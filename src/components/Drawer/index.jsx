@@ -41,7 +41,7 @@ const Drawer = ({ open, setDrawerOpen }) => {
   };
 
   const drawerContent = () => (
-    <List sx={{ background: "red" }}>
+    <List>
       {/* {sideBarMenuList.map((menuItem, index) => (
         <ListItem key={menuItem.title} sx={classes.menuItem}>
           <Tooltip title={menuItem.title} placement="right">

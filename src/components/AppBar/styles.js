@@ -1,5 +1,6 @@
 const getStyles = ({ drawerOpen, theme }) => ({
   appBar: {
+    boxShadow: "none",
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

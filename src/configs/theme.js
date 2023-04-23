@@ -1,11 +1,12 @@
 const theme = {
   palette: {
     primary: {
-      main: "#99baf0",
+      main: "#bdd0f0",
       contrastText: "#fff",
       hover: "#5980eb",
       background: "#f9f9f9",
       white: "#fff",
+      accent: "#95b7f0",
     },
   },
   typography: {

@@ -11,11 +11,12 @@ import {
 import baseTheme, { darkMode, mobile } from "configs/theme";
 import routePaths from "configs/routePaths";
 import Layout from "components/Layout";
+const ProductsPage = lazy(() => import("pages/ProductsPage/ProductsPage"));
 
 const routes = [
   {
     path: routePaths.productsListing,
-    Component: <div>Products listing page</div>,
+    Component: <ProductsPage />,
   },
   {
     path: routePaths.compare,
