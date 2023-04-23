@@ -1,31 +1,57 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import { productsStore } from "stores";
 import ProductCard from "./components/ProductCard";
+import Loading from "components/common/Loading";
 
 import getStyles from "./styles";
 
 const ProductsPage = () => {
   const classes = getStyles();
-  const { getProducts, products, isLoadingProducts } = productsStore;
+
+  const { getProducts, productsData, productsList, isLoadingProducts } =
+    productsStore;
+
+  const [hasMore, setHasMore] = useState(
+    productsList?.length < productsData?.total || true
+  );
 
   useEffect(() => {
     getProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const fetchMoreData = (productsData, productsList, callback) => {
+    callback = callback ? callback : getProducts;
+
+    if (productsList?.length >= productsData?.total) {
+      setHasMore(false);
+      return;
+    }
+
+    const params = { limit: 10, skip: productsList.length };
+
+    callback({
+      params,
+    });
+  };
+
   return isLoadingProducts ? (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <CircularProgress />
-    </Box>
+    <Loading />
   ) : (
-    <Box sx={classes.container}>
-      {products.map((product) => (
+    <InfiniteScroll
+      dataLength={productsList?.length || 1}
+      next={() => fetchMoreData(productsData, productsList)}
+      hasMore={hasMore}
+      loader={<Loading />}
+      style={classes.container}
+    >
+      {productsList?.map((product) => (
         <ProductCard product={product} key={product.id} />
       ))}
-    </Box>
+    </InfiniteScroll>
   );
 };
 

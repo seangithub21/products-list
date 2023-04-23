@@ -3,13 +3,15 @@ import { action, makeAutoObservable, observable, runInAction } from "mobx";
 import axios from "configs/axios";
 
 class ProductsStore {
-  products = [];
+  productsData = {};
+  productsList = [];
 
   isLoadingProducts = false;
 
   constructor() {
     makeAutoObservable(this, {
-      products: observable.ref,
+      productsData: observable.ref,
+      productsList: observable.ref,
 
       isLoadingProducts: observable.ref,
 
@@ -17,21 +19,37 @@ class ProductsStore {
     });
   }
 
-  getProducts = () => {
-    runInAction(() => {
-      this.products = [];
-      this.isLoadingProducts = true;
-    });
+  getProducts = ({ params } = {}) => {
+    if (!Object.keys(this.productsData).length) {
+      runInAction(() => {
+        this.isLoadingProducts = true;
+      });
+    }
     axios
-      .get("products")
-      .then(({ data: { products } }) => {
-        runInAction(() => {
-          this.products = products;
-          this.isLoadingProducts = false;
-        });
+      .get("products", {
+        params: params
+          ? params
+          : {
+              limit: 10,
+              skip: 0,
+            },
+      })
+      .then(({ data }) => {
+        if (!Object.keys(this.productsData).length) {
+          runInAction(() => {
+            this.productsData = data;
+            this.productsList = data.products;
+            this.isLoadingProducts = false;
+          });
+        } else {
+          runInAction(() => {
+            this.productsData = data;
+            this.productsList = this.productsList.concat(data.products);
+          });
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         runInAction(() => {
           this.isLoadingProducts = false;
         });
