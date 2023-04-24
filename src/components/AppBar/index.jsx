@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 import {
   AppBar as MuiAppBar,
   Box,
@@ -10,21 +11,21 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
-import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 import { ColorModeContext } from "core/App";
 
+import { cartStore } from "stores";
+
 import getStyles from "./styles";
 
 const AppBar = ({ drawerOpen, setDrawerOpen }) => {
+  const { cart } = cartStore;
+
   const isTablet = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const theme = useTheme();
-  const classes = getStyles({ drawerOpen, theme });
+  const classes = getStyles({ drawerOpen, theme, cart });
   const { toggleColorMode } = useContext(ColorModeContext);
   const navigate = useNavigate();
 
@@ -49,6 +50,13 @@ const AppBar = ({ drawerOpen, setDrawerOpen }) => {
           <Tooltip title="Open cart">
             <IconButton onClick={handleDrawer} sx={{ mr: "1rem" }}>
               <ShoppingCartOutlinedIcon sx={classes.cart} />
+              {!!cart?.length && (
+                <Box sx={classes.cartQuantityContainer}>
+                  <Typography variant="body2" sx={classes.cartQuantity}>
+                    {cart.length}
+                  </Typography>
+                </Box>
+              )}
             </IconButton>
           </Tooltip>
           <Tooltip title="Account">
@@ -62,4 +70,4 @@ const AppBar = ({ drawerOpen, setDrawerOpen }) => {
   );
 };
 
-export default AppBar;
+export default observer(AppBar);

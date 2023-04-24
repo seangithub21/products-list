@@ -1,12 +1,11 @@
 const theme = {
   palette: {
     primary: {
-      main: "#bdd0f0",
+      main: "#95b7f0",
       contrastText: "#fff",
       hover: "#5980eb",
       background: "#f9f9f9",
       white: "#fff",
-      accent: "#95b7f0",
     },
   },
   typography: {
@@ -86,7 +85,7 @@ const theme = {
         },
       },
     },
-    MuiListItemButton: {
+    MuiIconButton: {
       defaultProps: {
         disableRipple: true,
       },

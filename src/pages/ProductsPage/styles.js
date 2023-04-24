@@ -13,16 +13,14 @@ export const getProductCardStyles = ({ theme }) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     flex: "1 1 33rem",
-    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+    boxShadow: "rgba(0, 0, 0, 0.05) 0rem .1rem .2rem 0rem",
     padding: theme.spacing(3),
-    borderRadius: theme.spacing(1),
     transition: "all .3s",
     "&:hover": {
-      boxShadow:
-        "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
+      boxShadow: "rgba(17, 17, 26, 0.1) 0px 1px 0px;",
     },
   },
-  iamgeContainer: {
+  imageContainer: {
     "& img": {
       width: "100%",
       height: "30rem",

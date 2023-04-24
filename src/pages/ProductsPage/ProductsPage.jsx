@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { productsStore } from "stores";
+import { productsStore, cartStore } from "stores";
 import ProductCard from "./components/ProductCard";
 import Loading from "components/common/Loading";
 
@@ -13,6 +13,7 @@ const ProductsPage = () => {
 
   const { getProducts, productsData, productsList, isLoadingProducts } =
     productsStore;
+  const { updateCart } = cartStore;
 
   const [hasMore, setHasMore] = useState(
     productsList?.length < productsData?.total || true
@@ -20,6 +21,13 @@ const ProductsPage = () => {
 
   useEffect(() => {
     getProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("cart")) {
+      updateCart();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

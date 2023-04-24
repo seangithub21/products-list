@@ -1,5 +1,8 @@
+import { observer } from "mobx-react-lite";
 import { Box, Tooltip, Typography, useTheme } from "@mui/material";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
+
+import { cartStore } from "stores";
 
 import Button from "components/common/Button";
 
@@ -9,11 +12,15 @@ const ProductCard = ({ product }) => {
   const theme = useTheme();
   const classes = getProductCardStyles({ theme });
 
-  const handleAddToCart = () => {};
+  const { addToCart } = cartStore;
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+  };
 
   return (
     <Box sx={classes.container}>
-      <Box sx={classes.iamgeContainer}>
+      <Box sx={classes.imageContainer}>
         <img src={product.images[0]} alt={product.title} />
         <Box>
           <Typography>{product.title}</Typography>
@@ -31,21 +38,21 @@ const ProductCard = ({ product }) => {
         }}
       >
         <Typography>Price: ${product.price}</Typography>
-        <Tooltip>
-          <>
-            <Button onClick={handleAddToCart}>
+        <Tooltip title="Add to cart">
+          <Box>
+            <Button onClick={() => handleAddToCart(product)} icon>
               <AddShoppingCartOutlinedIcon
                 sx={{
                   fontSize: "3rem",
-                  color: theme.palette.primary.accent,
+                  color: theme.palette.primary.main,
                 }}
               />
             </Button>
-          </>
+          </Box>
         </Tooltip>
       </Box>
     </Box>
   );
 };
 
-export default ProductCard;
+export default observer(ProductCard);
