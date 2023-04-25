@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "UbuntuLight";
+  src: local("UbuntuLight"), url("./ubuntu/Ubuntu-Light.ttf");
+}
+@font-face {
+  font-family: "UbuntuRegular";
+  src: local("UbuntuRegular"), url("./ubuntu/Ubuntu-Regular.ttf");
+}
+@font-face {
+  font-family: "UbuntuMedium";
+  src: local("UbuntuMedium"), url("./ubuntu/Ubuntu-Medium.ttf");
+}
+@font-face {
+  font-family: "UbuntuBold";
+  src: local("UbuntuBold"), url("./ubuntu/Ubuntu-Bold.ttf");
+}
+
+@font-face {
+  font-family: "GreatVibesRegular";
+  src: local("GreatVibesRegular"), url("./ubuntu/GreatVibes-Regular.ttf");
+}
