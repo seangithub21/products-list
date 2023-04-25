@@ -28,6 +28,10 @@ const getStyles = ({ drawerOpen, theme }) => ({
         ? theme.palette.primary.main
         : theme.palette.grey[400],
   },
+  compare: {
+    fontSize: "2.7rem",
+    color: theme.palette.primary.main,
+  },
   cart: {
     fontSize: "2.7rem",
     color: theme.palette.primary.main,

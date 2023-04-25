@@ -24,13 +24,6 @@ const ProductsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (localStorage.getItem("cart")) {
-      updateCart();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const fetchMoreData = (productsData, productsList, callback) => {
     callback = callback ? callback : getProducts;
 

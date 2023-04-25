@@ -11,7 +11,9 @@ import {
 import baseTheme, { darkMode, mobile } from "configs/theme";
 import routePaths from "configs/routePaths";
 import Layout from "components/Layout";
-const ProductsPage = lazy(() => import("pages/ProductsPage/ProductsPage"));
+
+const ProductsPage = lazy(() => import("pages/ProductsPage"));
+const ComparePage = lazy(() => import("pages/ComparePage/"));
 
 const routes = [
   {
@@ -20,7 +22,7 @@ const routes = [
   },
   {
     path: routePaths.compare,
-    Component: <div>Compare products page</div>,
+    Component: <ComparePage />,
   },
   {
     path: routePaths.cart,
