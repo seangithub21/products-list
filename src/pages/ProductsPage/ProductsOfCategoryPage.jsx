@@ -1,51 +1,54 @@
 import { useEffect, useState } from "react";
-import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { observer } from "mobx-react-lite";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-import { productsStore, productsByCategoryStore } from "stores";
-import ProductCard from "./components/ProductCard";
+import { productsByCategoryStore } from "stores";
 import Loading from "components/common/Loading";
+import ProductCard from "./components/ProductCard";
 
 import getStyles from "./styles";
 
-const ProductsPage = () => {
+const ProductsOfCategoryPage = () => {
   const classes = getStyles();
   const navigate = useNavigate();
+  const { category } = useParams();
 
   const {
-    getProducts,
-    productsData,
-    productsList,
+    getCategories,
+    categoriesList,
+    currentCategory,
+    getProductsOfCategory,
+    productsByCategoryList,
+    productsByCategoryData,
     isLoadingProducts,
-    clearStore,
-  } = productsStore;
-  const { getCategories, categoriesList } = productsByCategoryStore;
+    isLoadingCategories,
+  } = productsByCategoryStore;
 
   const [hasMore, setHasMore] = useState(
-    productsList?.length < productsData?.total || true
+    productsByCategoryList?.length < productsByCategoryData?.total || true
   );
 
   useEffect(() => {
-    getProducts();
     getCategories();
-
-    return () => {
-      clearStore();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    getProductsOfCategory({ category });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category]);
+
   const handleChangeCategory = (category) => {
     if (category === "") {
-      return;
+      navigate("/");
     }
     navigate(`/products-listing/${category}`);
   };
 
   const fetchMoreData = (productsData, productsList, callback) => {
-    callback = callback ? callback : getProducts;
+    callback = callback ? callback : getProductsOfCategory;
 
     if (productsList?.length >= productsData?.total) {
       setHasMore(false);
@@ -59,16 +62,14 @@ const ProductsPage = () => {
     });
   };
 
-  return isLoadingProducts ? (
-    <Loading />
-  ) : (
-    <>
+  return (
+    <Box>
       {!!categoriesList.length && (
         <Box>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel>Category</InputLabel>
             <Select
-              value={""}
+              value={currentCategory}
               onChange={(event) => handleChangeCategory(event.target.value)}
             >
               <MenuItem value="">
@@ -85,19 +86,26 @@ const ProductsPage = () => {
           </FormControl>
         </Box>
       )}
-      <InfiniteScroll
-        dataLength={productsList?.length || 1}
-        next={() => fetchMoreData(productsData, productsList)}
-        hasMore={hasMore}
-        loader={<Loading />}
-        style={classes.container}
-      >
-        {productsList?.map((product) => (
-          <ProductCard product={product} key={product.id} />
-        ))}
-      </InfiniteScroll>
-    </>
+      <h2>{category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+      {isLoadingProducts || isLoadingCategories ? (
+        <Loading />
+      ) : (
+        <InfiniteScroll
+          dataLength={productsByCategoryList?.length || 1}
+          next={() =>
+            fetchMoreData(productsByCategoryData, productsByCategoryList)
+          }
+          hasMore={hasMore}
+          loader={<Loading />}
+          style={classes.container}
+        >
+          {productsByCategoryList?.map((product) => (
+            <ProductCard product={product} key={product.id} />
+          ))}
+        </InfiniteScroll>
+      )}
+    </Box>
   );
 };
 
-export default observer(ProductsPage);
+export default observer(ProductsOfCategoryPage);

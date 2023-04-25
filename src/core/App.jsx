@@ -14,11 +14,18 @@ import Layout from "components/Layout";
 
 const ProductsPage = lazy(() => import("pages/ProductsPage"));
 const ComparePage = lazy(() => import("pages/ComparePage/"));
+const ProductsOfCategoryPage = lazy(() =>
+  import("pages/ProductsPage/ProductsOfCategoryPage")
+);
 
 const routes = [
   {
     path: routePaths.productsListing,
     Component: <ProductsPage />,
+  },
+  {
+    path: routePaths.productsListingByCategory,
+    Component: <ProductsOfCategoryPage />,
   },
   {
     path: routePaths.compare,

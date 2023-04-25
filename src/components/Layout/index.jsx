@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
       <AppBar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
       <Drawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
       <Box sx={classes.content}>
-        <DrawerHeader sx={{ mb: "6rem" }} />
+        <DrawerHeader sx={{ mb: "1rem" }} />
         {children}
       </Box>
     </Box>

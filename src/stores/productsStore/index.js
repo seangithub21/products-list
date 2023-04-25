@@ -16,6 +16,7 @@ class ProductsStore {
       isLoadingProducts: observable.ref,
 
       getProducts: action,
+      clearStore: action,
     });
   }
 
@@ -54,6 +55,13 @@ class ProductsStore {
           this.isLoadingProducts = false;
         });
       });
+  };
+
+  clearStore = () => {
+    runInAction(() => {
+      this.productsData = {};
+      this.productsList = [];
+    });
   };
 }
 
